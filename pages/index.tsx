@@ -1,8 +1,9 @@
 import type { InferGetStaticPropsType } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BlurhashCanvas } from 'react-blurhash'
+import Topics from '../components/Topics'
 import type { IAPIResponse } from '../types/ApiResponse'
 import { ITopicsResponse } from '../types/TopicsResponse'
 
@@ -27,6 +28,7 @@ const SearchSVG = () => (
 const Home = ({ images, topics, imgOfTheDay }: HomeProps) => {
   const router = useRouter()
   const [searchValue, setSearchValue] = useState('')
+  const catagoriesWrapper = useRef(null)
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -47,10 +49,8 @@ const Home = ({ images, topics, imgOfTheDay }: HomeProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log(imgOfTheDay)
-
   return (
-    <div className="home">
+    <div className="home" ref={catagoriesWrapper}>
       {images ? (
         <>
           <div className="random-img">
@@ -109,6 +109,8 @@ const Home = ({ images, topics, imgOfTheDay }: HomeProps) => {
               </>
             )}
           </div>
+
+          <Topics items={topics} wrapper={catagoriesWrapper} />
         </>
       ) : (
         <>
