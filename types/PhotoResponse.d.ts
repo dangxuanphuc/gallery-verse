@@ -71,6 +71,11 @@ export interface Result {
   id: string
   title: string
   description: null
+  blur_hash: string
+  description: string
+  alt_description: string
+  width: number
+  height: number
   published_at: Date
   last_collected_at: Date
   updated_at: Date
@@ -82,6 +87,7 @@ export interface Result {
   tags: Tag[]
   links: ResultLinks
   user: User
+  urls: Urls
   cover_photo: ResultCoverPhoto
   preview_photos: PreviewPhoto[]
 }
@@ -165,6 +171,7 @@ export interface ResultLinks {
   html: string
   photos: string
   related: string
+  download: string
 }
 
 export interface PreviewPhoto {

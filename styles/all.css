@@ -19,7 +19,7 @@
 
 /*  - image card */
 .img-card-main {
-  @apply rounded-xl w-full p-1 sm:w-1/2 lg:w-1/3 hover:bg-light-900 hover:shadow-lg hover:shadow-dark-900 dark:hover:bg-dark-200 dark:hover:shadow-light-900;
+  @apply rounded-xl w-full p-1 sm:w-1/2 lg:w-1/3 hover:bg-light-900 hover:shadow-lg hover:shadow-dark-900 dark:hover:bg-dark-200 dark:hover:shadow-light-900 absolute;
 
   &:hover {
     .wrapper {
@@ -185,7 +185,7 @@
   }
 
   .masonry {
-    @apply w-full overflow-hidden;
+    @apply w-full overflow-hidden relative;
   }
 }
 /*  - image */
