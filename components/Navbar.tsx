@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
-import { useRouter } from 'next/router'
 import { AnimatePresence, motion } from 'framer-motion'
 
 const MoonSVG = () => (
@@ -44,45 +42,8 @@ const SunSVG = () => (
   </motion.svg>
 )
 
-const SearchSVG = () => (
-  <svg
-    className="h-5 w-5"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-    />
-  </svg>
-)
-
 const Navbar = () => {
   const { theme, setTheme } = useTheme()
-  const [searchValue, setSearchValue] = useState('')
-  const router = useRouter()
-
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    if (searchValue.length > 0) {
-      router.push(`/search/${searchValue.split(' ').join('-')}`)
-    }
-  }
-
-  useEffect(() => {
-    if (router.isReady && router.asPath.includes('/search')) {
-      const searchParams = router.asPath
-        .replace('/search/', '')
-        .split('-')
-        .join(' ')
-      setSearchValue(searchParams)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <nav className="navbar">
@@ -91,20 +52,6 @@ const Navbar = () => {
           <h1>Gallery Verse</h1>
         </a>
       </Link>
-      <form onSubmit={handleFormSubmit} className="form">
-        <input
-          type="text"
-          id="search"
-          name="search"
-          placeholder="Search anything..."
-          autoComplete="off"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-        />
-        <button type="submit">
-          <SearchSVG />
-        </button>
-      </form>
       <motion.button
         whileTap={{ scale: 0.9 }}
         className="btn"
