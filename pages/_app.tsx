@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app'
 import 'windi.css'
 import '../styles/all.css'
 
-function MyApp ({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Layout>
       <Component {...pageProps} />

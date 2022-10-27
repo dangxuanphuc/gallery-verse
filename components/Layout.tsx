@@ -1,9 +1,9 @@
-import { useEffect } from "react"
-import { ThemeProvider } from "next-themes"
-import { useRouter } from "next/router"
-import nProgress from "nprogress"
+import { useEffect } from 'react'
+import { ThemeProvider } from 'next-themes'
+import { useRouter } from 'next/router'
+import nProgress from 'nprogress'
 
-import Navbar from "./Navbar"
+import Navbar from './Navbar'
 
 type LayoutProps = {
   children: React.ReactNode
