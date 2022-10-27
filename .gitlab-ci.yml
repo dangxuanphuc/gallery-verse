@@ -1,10 +1,10 @@
 image: node:16
 
 stages:
-  - lint
+  - audit
 
 eslint:
-  stage: lint
+  stage: audit
   script:
     - yarn add prettier eslint eslint-config-prettier eslint-plugin-prettier
     - node_modules/eslint/bin/eslint.js .
