@@ -1,0 +1,41 @@
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+
+import type { MutableRefObject } from 'react'
+import type { Tag } from '../types/PhotoResponse'
+import type { ITopicsResponse } from '../types/TopicsResponse'
+
+interface ITopicsProps {
+  items: ITopicsResponse[] | Tag[] | null
+  wrapper: MutableRefObject<null>
+}
+
+const Topics = ({ items: topics, wrapper }: ITopicsProps) => {
+  return (
+    <motion.div
+      key="tags"
+      drag="x"
+      dragPropagation
+      dragConstraints={wrapper}
+      dragTransition={{ power: 0.035 }}
+      className="topics"
+    >
+      {topics?.map((topic, index) => (
+        <div key={(topic as ITopicsResponse)?.id || `${topic.title}-${index}`}>
+          <Link
+            passHref
+            href={
+              (topic as ITopicsResponse)?.slug
+                ? `/category/${(topic as ITopicsResponse)?.slug}`
+                : `/search/${topic.title?.split(' ').join('-')}`
+            }
+          >
+            <motion.div draggable={false}>{topic.title}</motion.div>
+          </Link>
+        </div>
+      ))}
+    </motion.div>
+  )
+}
+
+export default Topics
