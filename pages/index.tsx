@@ -3,9 +3,12 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { BlurhashCanvas } from 'react-blurhash'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import Masonry from 'react-masonry-component'
+import ImageCard from '../components/ImageCard'
 import Topics from '../components/Topics'
 import type { IAPIResponse } from '../types/ApiResponse'
-import { ITopicsResponse } from '../types/TopicsResponse'
+import type { ITopicsResponse } from '../types/TopicsResponse'
 
 type HomeProps = InferGetStaticPropsType<typeof getStaticProps> & {}
 
@@ -28,6 +31,7 @@ const SearchSVG = () => (
 const Home = ({ images, topics, imgOfTheDay }: HomeProps) => {
   const router = useRouter()
   const [searchValue, setSearchValue] = useState('')
+  const [page, setPage] = useState(3)
   const catagoriesWrapper = useRef(null)
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -36,6 +40,18 @@ const Home = ({ images, topics, imgOfTheDay }: HomeProps) => {
     if (searchValue.length > 0) {
       router.push(`/search/${searchValue.split(' ').join('-')}`)
     }
+  }
+
+  const fetchNextData = () => {
+    fetch(
+      `https://api.unsplash.com/photos/?client_id=${process.env.NEXT_PUBLIC_API_KEY}&per_page=15&page=${page}&order_by=popular`
+    )
+      .then((data) => data.json())
+      .then((imgData: IAPIResponse[]) => {
+        images?.push(...imgData)
+        setPage(page + 1)
+      })
+      .catch((error) => console.log(error))
   }
 
   useEffect(() => {
@@ -103,14 +119,45 @@ const Home = ({ images, topics, imgOfTheDay }: HomeProps) => {
                     rel="noreferrer noopener"
                     href={`${imgOfTheDay.user.links.html}?utm_source=gallery_verse&utm_medium=referral`}
                   >
-                    {`${imgOfTheDay.user.first_name} ${imgOfTheDay.user.last_name}`}
+                    {`${imgOfTheDay.user.first_name || ''} ${
+                      imgOfTheDay.user.last_name || ''
+                    }`}
                   </a>
                 </div>
               </>
             )}
           </div>
-
           <Topics items={topics} wrapper={catagoriesWrapper} />
+          <div className="infinite-scroll-wrapper">
+            <InfiniteScroll
+              dataLength={images.length}
+              next={fetchNextData}
+              scrollThreshold={0.7}
+              hasMore={true}
+              loader={
+                <h1 className="loading-msg">
+                  <Image
+                    src="/loading.gif"
+                    loading="eager"
+                    width={32}
+                    height={32}
+                    alt="1"
+                  />
+                  <span> Loading </span>
+                </h1>
+              }
+              className="infinite-scroll"
+              endMessage={
+                <h1 className="end-msg">We dont have more images to show</h1>
+              }
+            >
+              <Masonry className={'masonry'}>
+                {images?.map((image) => (
+                  <ImageCard key={image.id} data={image} />
+                ))}
+              </Masonry>
+            </InfiniteScroll>
+          </div>
         </>
       ) : (
         <>
