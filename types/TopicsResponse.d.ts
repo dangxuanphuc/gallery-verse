@@ -120,3 +120,31 @@ export interface PreviewPhoto {
 export enum Status {
   Open = "open"
 }
+
+export interface ICurrentTopicResponse {
+  id: string
+  slug: string
+  title: string
+  description: string
+  published_at: Date
+  updated_at: Date
+  starts_at: Date
+  ends_at: null
+  only_submissions_after: null
+  featured: boolean
+  total_photos: number
+  current_user_contributions: any[]
+  total_current_user_submissions: null
+  links: ICurrentTopicsResponseLinks
+  status: string
+  owners: User[]
+  top_contributors: User[]
+  cover_photo: CoverPhoto
+  preview_photos: PreviewPhoto[]
+}
+
+export interface ICurrentTopicsResponseLinks {
+  self: string
+  html: string
+  photos: string
+}
