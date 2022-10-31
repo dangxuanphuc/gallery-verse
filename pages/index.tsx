@@ -1,4 +1,5 @@
 import type { InferGetStaticPropsType } from 'next'
+import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
@@ -51,110 +52,115 @@ const Home = ({ images, topics, imgOfTheDay }: HomeProps) => {
   }, [])
 
   return (
-    <div className="home" ref={catagoriesWrapper}>
-      {images ? (
-        <>
-          <div className="random-img">
-            {imgOfTheDay && (
-              <>
-                <BlurhashCanvas
-                  hash={imgOfTheDay.blur_hash}
-                  punch={1}
-                  height={32}
-                  width={32}
-                ></BlurhashCanvas>
-                <Image
-                  src={`${imgOfTheDay.urls.raw}&w=1500&fm=webp&q=75`}
-                  alt={imgOfTheDay.alt_description || 'Image of the day'}
-                  unoptimized={true}
-                  layout="fill"
-                  objectFit="cover"
-                />
-                <div className="form-wrapper">
-                  <h1>Gallery Verse</h1>
-                  <p>
-                    A photo search app powered by{' '}
+    <>
+      <Head>
+        <title>Gallery Verse</title>
+      </Head>
+      <div className="home" ref={catagoriesWrapper}>
+        {images ? (
+          <>
+            <div className="random-img">
+              {imgOfTheDay && (
+                <>
+                  <BlurhashCanvas
+                    hash={imgOfTheDay.blur_hash}
+                    punch={1}
+                    height={32}
+                    width={32}
+                  ></BlurhashCanvas>
+                  <Image
+                    src={`${imgOfTheDay.urls.raw}&w=1500&fm=webp&q=75`}
+                    alt={imgOfTheDay.alt_description || 'Image of the day'}
+                    unoptimized={true}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                  <div className="form-wrapper">
+                    <h1>Gallery Verse</h1>
+                    <p>
+                      A photo search app powered by{' '}
+                      <a
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        href="https://unsplash.com/?utm_source=gallery_verse&utm_medium=referral"
+                      >
+                        Unsplash API
+                      </a>
+                    </p>
+                    <form onSubmit={handleFormSubmit} className="form">
+                      <input
+                        type="text"
+                        id="search"
+                        name="search"
+                        placeholder="Search anything..."
+                        autoComplete="off"
+                        value={searchValue}
+                        onChange={(e) => setSearchValue(e.target.value)}
+                      />
+                      <button type="submit">
+                        <SearchSVG />
+                      </button>
+                    </form>
+                  </div>
+                  <div className="credits">
+                    Photo by{' '}
                     <a
                       target="_blank"
                       rel="noreferrer noopener"
-                      href="https://unsplash.com/?utm_source=gallery_verse&utm_medium=referral"
+                      href={`${imgOfTheDay.user.links.html}?utm_source=gallery_verse&utm_medium=referral`}
                     >
-                      Unsplash API
+                      {`${imgOfTheDay.user.first_name || ''} ${
+                        imgOfTheDay.user.last_name || ''
+                      }`}
                     </a>
-                  </p>
-                  <form onSubmit={handleFormSubmit} className="form">
-                    <input
-                      type="text"
-                      id="search"
-                      name="search"
-                      placeholder="Search anything..."
-                      autoComplete="off"
-                      value={searchValue}
-                      onChange={(e) => setSearchValue(e.target.value)}
+                  </div>
+                </>
+              )}
+            </div>
+            <Topics items={topics} wrapper={catagoriesWrapper} />
+            <div className="infinite-scroll-wrapper">
+              <InfiniteScroll
+                dataLength={images.length}
+                next={fetchNextData}
+                scrollThreshold={0.7}
+                hasMore={true}
+                loader={
+                  <h1 className="loading-msg">
+                    <Image
+                      src="/loading.gif"
+                      loading="eager"
+                      width={32}
+                      height={32}
+                      alt="1"
                     />
-                    <button type="submit">
-                      <SearchSVG />
-                    </button>
-                  </form>
-                </div>
-                <div className="credits">
-                  Photo by{' '}
-                  <a
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    href={`${imgOfTheDay.user.links.html}?utm_source=gallery_verse&utm_medium=referral`}
-                  >
-                    {`${imgOfTheDay.user.first_name || ''} ${
-                      imgOfTheDay.user.last_name || ''
-                    }`}
-                  </a>
-                </div>
-              </>
-            )}
+                    <span> Loading </span>
+                  </h1>
+                }
+                className="infinite-scroll"
+                endMessage={
+                  <h1 className="end-msg">
+                    We don&quot;t have more images to show
+                  </h1>
+                }
+              >
+                <Masonry className={'masonry'}>
+                  {images?.map((image) => (
+                    <ImageCard key={image.id} data={image} />
+                  ))}
+                </Masonry>
+              </InfiniteScroll>
+            </div>
+          </>
+        ) : (
+          <div className="error">
+            <h1>API Limited exceed</h1>
+            <h1>Sorry Unsplash has some API limitations</h1>
+            <h1>Try again after an hour</h1>
+            <h1>API access limit is 50 requests per hour</h1>
           </div>
-          <Topics items={topics} wrapper={catagoriesWrapper} />
-          <div className="infinite-scroll-wrapper">
-            <InfiniteScroll
-              dataLength={images.length}
-              next={fetchNextData}
-              scrollThreshold={0.7}
-              hasMore={true}
-              loader={
-                <h1 className="loading-msg">
-                  <Image
-                    src="/loading.gif"
-                    loading="eager"
-                    width={32}
-                    height={32}
-                    alt="1"
-                  />
-                  <span> Loading </span>
-                </h1>
-              }
-              className="infinite-scroll"
-              endMessage={
-                <h1 className="end-msg">
-                  We don&quot;t have more images to show
-                </h1>
-              }
-            >
-              <Masonry className={'masonry'}>
-                {images?.map((image) => (
-                  <ImageCard key={image.id} data={image} />
-                ))}
-              </Masonry>
-            </InfiniteScroll>
-          </div>
-        </>
-      ) : (
-        <div className="error">
-          <h1>API Limited exceed</h1>
-          <h1>Sorry Unsplash has some API limitations</h1>
-          <h1>Try again after an hour</h1>
-          <h1>API access limit is 50 requests per hour</h1>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   )
 }
 
