@@ -30,7 +30,7 @@ const Topics = ({ items: topics, wrapper }: ITopicsProps) => {
                 : `/search/${topic.title?.split(' ').join('-')}`
             }
           >
-            <motion.div draggable={false}>{topic.title}</motion.div>
+            <motion.a draggable={false}>{topic.title}</motion.a>
           </Link>
         </div>
       ))}
