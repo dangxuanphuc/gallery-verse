@@ -176,7 +176,12 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     })
     .catch((err) => console.log(err))
 
-  return { props: { images, topics, currentTopic: currentTopic[0] } }
+  if (images === null) return { props: { images: [], topics, notFound: true } }
+
+  return {
+    props: { images, topics, currentTopic: currentTopic[0] },
+    revalidate: 10 * 60,
+  }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
