@@ -5,28 +5,13 @@ import { useEffect, useRef, useState } from 'react'
 import { BlurhashCanvas } from 'react-blurhash'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import Masonry from 'react-masonry-component'
+import { SearchSVG } from '../assets/svg'
 import ImageCard from '../components/ImageCard'
 import Topics from '../components/Topics'
 import type { IAPIResponse } from '../types/ApiResponse'
 import type { ITopicsResponse } from '../types/TopicsResponse'
 
 type HomeProps = InferGetStaticPropsType<typeof getStaticProps> & {}
-
-const SearchSVG = () => (
-  <svg
-    className="h-5 w-5"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-    />
-  </svg>
-)
 
 const Home = ({ images, topics, imgOfTheDay }: HomeProps) => {
   const router = useRouter()
