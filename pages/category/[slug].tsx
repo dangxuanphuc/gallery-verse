@@ -3,6 +3,7 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from 'next'
+import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useRef, useState } from 'react'
@@ -37,103 +38,108 @@ const CategorySlug = ({ images, topics, currentTopic }: CategorySlugProps) => {
   }
 
   return (
-    <div className="category" ref={categoriesWrapper}>
-      {router.isFallback && <h1>Loading...</h1>}
-      {images.length !== 0 ? (
-        <>
-          <div className="random-img">
-            {currentTopic && (
-              <>
-                <BlurhashCanvas
-                  hash={currentTopic.cover_photo.blur_hash!}
-                  punch={1}
-                  height={32}
-                  width={32}
-                />
-                <Image
-                  src={`${
-                    currentTopic.cover_photo.urls!.raw
-                  }&w=1500&fm=webp&q=75`}
-                  alt={
-                    currentTopic.cover_photo.alt_description ||
-                    'Image of the day'
-                  }
-                  unoptimized={true}
-                  layout="fill"
-                  objectFit="cover"
-                />
-                <div className="category-info">
-                  <h1>{currentTopic.title}</h1>
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: currentTopic.description,
-                    }}
-                  />
-                </div>
-                <div className="credits">
-                  Photo by{' '}
-                  <a
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    href={`${
-                      currentTopic.cover_photo.user!.links!.html
-                    }&utm_source=gallery_verse&utm_medium=referral`}
-                  >
-                    {`${currentTopic.cover_photo.user!.first_name || null} ${
-                      currentTopic.cover_photo.user!.last_name || null
-                    }`}
-                  </a>
-                </div>
-              </>
-            )}
-          </div>
-          <Topics items={topics} wrapper={categoriesWrapper} />
-          <div className="infinite-scroll-wrapper">
-            <InfiniteScroll
-              dataLength={images.length}
-              next={fetchNextData}
-              scrollThreshold={0.7}
-              hasMore={true}
-              loader={
-                <h1 className="loading-msg">
-                  <Image
-                    src="/loading.gif"
-                    loading="eager"
-                    width={32}
+    <>
+      <Head>
+        <title>{currentTopic?.title} | Gallery Verse</title>
+      </Head>
+      <div className="category" ref={categoriesWrapper}>
+        {router.isFallback && <h1>Loading...</h1>}
+        {images.length !== 0 ? (
+          <>
+            <div className="random-img">
+              {currentTopic && (
+                <>
+                  <BlurhashCanvas
+                    hash={currentTopic.cover_photo.blur_hash!}
+                    punch={1}
                     height={32}
-                    alt="Loading"
+                    width={32}
                   />
-                  <span className="ml-2">Loading</span>
-                </h1>
-              }
-              className="infinite-scroll"
-              endMessage={
-                <h1 className="end-msg">
-                  We don&quot;t have more images to show
-                </h1>
-              }
-            >
-              <Masonry
-                disableImagesLoaded={false}
-                updateOnEachImageLoad={false}
-                className="masonry"
+                  <Image
+                    src={`${
+                      currentTopic.cover_photo.urls!.raw
+                    }&w=1500&fm=webp&q=75`}
+                    alt={
+                      currentTopic.cover_photo.alt_description ||
+                      'Image of the day'
+                    }
+                    unoptimized={true}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                  <div className="category-info">
+                    <h1>{currentTopic.title}</h1>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: currentTopic.description,
+                      }}
+                    />
+                  </div>
+                  <div className="credits">
+                    Photo by{' '}
+                    <a
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      href={`${
+                        currentTopic.cover_photo.user!.links!.html
+                      }&utm_source=gallery_verse&utm_medium=referral`}
+                    >
+                      {`${currentTopic.cover_photo.user!.first_name || null} ${
+                        currentTopic.cover_photo.user!.last_name || null
+                      }`}
+                    </a>
+                  </div>
+                </>
+              )}
+            </div>
+            <Topics items={topics} wrapper={categoriesWrapper} />
+            <div className="infinite-scroll-wrapper">
+              <InfiniteScroll
+                dataLength={images.length}
+                next={fetchNextData}
+                scrollThreshold={0.7}
+                hasMore={true}
+                loader={
+                  <h1 className="loading-msg">
+                    <Image
+                      src="/loading.gif"
+                      loading="eager"
+                      width={32}
+                      height={32}
+                      alt="Loading"
+                    />
+                    <span className="ml-2">Loading</span>
+                  </h1>
+                }
+                className="infinite-scroll"
+                endMessage={
+                  <h1 className="end-msg">
+                    We don&quot;t have more images to show
+                  </h1>
+                }
               >
-                {images?.map((image) => (
-                  <ImageCard key={image.id} data={image} />
-                ))}
-              </Masonry>
-            </InfiniteScroll>
+                <Masonry
+                  disableImagesLoaded={false}
+                  updateOnEachImageLoad={false}
+                  className="masonry"
+                >
+                  {images?.map((image) => (
+                    <ImageCard key={image.id} data={image} />
+                  ))}
+                </Masonry>
+              </InfiniteScroll>
+            </div>
+          </>
+        ) : (
+          <div className="error">
+            <h1>API Limited exceed</h1>
+            <h1>Sorry Unsplash has some API limitations</h1>
+            <h1>Try again after an hour</h1>
+            <h1>API access limit is 50 requests per hour</h1>
           </div>
-        </>
-      ) : (
-        <div className="error">
-          <h1>API Limited exceed</h1>
-          <h1>Sorry Unsplash has some API limitations</h1>
-          <h1>Try again after an hour</h1>
-          <h1>API access limit is 50 requests per hour</h1>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   )
 }
 

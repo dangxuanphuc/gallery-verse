@@ -1,4 +1,5 @@
 import { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next'
+import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useRef, useState } from 'react'
@@ -29,64 +30,71 @@ const Search = ({
   }
 
   return (
-    <div className="search" ref={categoriesWrapper}>
-      {images ? (
-        <>
-          <div className="heading">
-            <p>
-              Search result for:{' '}
-              <b>{(router.query.q as string).split('-').join(' ')}</b>
-            </p>
-          </div>
+    <>
+      <Head>
+        <title>
+          {(router.query.q as string).split('-').join(' ')} | Gallery Verse
+        </title>
+      </Head>
+      <div className="search" ref={categoriesWrapper}>
+        {images ? (
+          <>
+            <div className="heading">
+              <p>
+                Search result for:{' '}
+                <b>{(router.query.q as string).split('-').join(' ')}</b>
+              </p>
+            </div>
 
-          <Topics asLink items={topics} wrapper={categoriesWrapper} />
+            <Topics asLink items={topics} wrapper={categoriesWrapper} />
 
-          <div className="infinite-scroll-wrapper">
-            <InfiniteScroll
-              dataLength={images.results.length}
-              next={fetchNextData}
-              scrollThreshold={0.7}
-              hasMore={images.total_pages >= page}
-              loader={
-                <h1 className="loading-msg">
-                  <Image
-                    src="/loading.gif"
-                    loading="eager"
-                    width={32}
-                    height={32}
-                    alt="1"
-                  />
-                  <span className="ml-2">Loading</span>
-                </h1>
-              }
-              className="infinite-scroll"
-              endMessage={
-                <h1 className="end-msg">
-                  We don&quot;t have more images to show
-                </h1>
-              }
-            >
-              <Masonry
-                disableImagesLoaded={false}
-                updateOnEachImageLoad={false}
-                className="masonry"
+            <div className="infinite-scroll-wrapper">
+              <InfiniteScroll
+                dataLength={images.results.length}
+                next={fetchNextData}
+                scrollThreshold={0.7}
+                hasMore={images.total_pages >= page}
+                loader={
+                  <h1 className="loading-msg">
+                    <Image
+                      src="/loading.gif"
+                      loading="eager"
+                      width={32}
+                      height={32}
+                      alt="1"
+                    />
+                    <span className="ml-2">Loading</span>
+                  </h1>
+                }
+                className="infinite-scroll"
+                endMessage={
+                  <h1 className="end-msg">
+                    We don&quot;t have more images to show
+                  </h1>
+                }
               >
-                {images?.results?.map((image) => (
-                  <ImageCard key={image.id} data={image} />
-                ))}
-              </Masonry>
-            </InfiniteScroll>
+                <Masonry
+                  disableImagesLoaded={false}
+                  updateOnEachImageLoad={false}
+                  className="masonry"
+                >
+                  {images?.results?.map((image) => (
+                    <ImageCard key={image.id} data={image} />
+                  ))}
+                </Masonry>
+              </InfiniteScroll>
+            </div>
+          </>
+        ) : (
+          <div className="error">
+            <h1>API Limited exceed</h1>
+            <h1>Sorry Unsplash has some API limitations</h1>
+            <h1>Try again after an hour</h1>
+            <h1>API access limit is 50 requests per hour</h1>
           </div>
-        </>
-      ) : (
-        <div className="error">
-          <h1>API Limited exceed</h1>
-          <h1>Sorry Unsplash has some API limitations</h1>
-          <h1>Try again after an hour</h1>
-          <h1>API access limit is 50 requests per hour</h1>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   )
 }
 
