@@ -148,7 +148,9 @@ const Home = ({ images, topics, imgOfTheDay }: HomeProps) => {
               }
               className="infinite-scroll"
               endMessage={
-                <h1 className="end-msg">We dont have more images to show</h1>
+                <h1 className="end-msg">
+                  We don&quot;t have more images to show
+                </h1>
               }
             >
               <Masonry className={'masonry'}>
@@ -160,14 +162,12 @@ const Home = ({ images, topics, imgOfTheDay }: HomeProps) => {
           </div>
         </>
       ) : (
-        <>
-          <div className="error">
-            <h1>API Limited exceed</h1>
-            <h1>Sorry Unsplash has some API limitations</h1>
-            <h1>Try again after an hour</h1>
-            <h1>API access limit is 50 requests per hour</h1>
-          </div>
-        </>
+        <div className="error">
+          <h1>API Limited exceed</h1>
+          <h1>Sorry Unsplash has some API limitations</h1>
+          <h1>Try again after an hour</h1>
+          <h1>API access limit is 50 requests per hour</h1>
+        </div>
       )}
     </div>
   )
