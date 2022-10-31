@@ -3,25 +3,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { BlurhashCanvas } from 'react-blurhash'
+import { DownloadSVG } from '../assets/svg'
 import { IAPIResponse } from '../types/ApiResponse'
 import { Result } from '../types/PhotoResponse'
-
-const DownloadSVG = () => (
-  <svg
-    className="h-6 w-6"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-    />
-  </svg>
-)
 
 const ImageCard = ({ data: image }: { data: IAPIResponse | Result }) => {
   const [isDropdownActive, setIsDropdownActive] = useState(false)
