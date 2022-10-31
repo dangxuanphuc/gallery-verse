@@ -1,25 +1,24 @@
-import { UserLinks } from "./ApiResponse"
-
 export interface ITopicsResponse {
-  id: string
-  slug: string
-  title: string
-  description: string
-  published_at: Date
-  updated_at: Date
-  starts_at: Date
-  ends_at: Date
-  only_submissions_after: null
-  visibility: string
-  featured: boolean
-  total_photos: number
-  current_user_contributions: any[]
-  total_current_user_submissions: number | null
-  links: ITopicsResponseLinks
-  status: string
-  owners: User[]
-  cover_photo: CoverPhoto
-  preview_photos: PreviewPhoto[]
+  id?: string
+  slug?: string
+  title?: string
+  description?: string
+  published_at?: Date
+  updated_at?: Date
+  starts_at?: Date
+  ends_at?: Date | null
+  promoted_at: string | null
+  only_submissions_after?: null
+  visibility?: string
+  featured?: boolean
+  total_photos?: number
+  current_user_contributions?: any[]
+  total_current_user_submissions?: number | null
+  links?: ITopicsResponseLinks
+  status?: Status
+  owners?: User[]
+  cover_photo?: CoverPhoto
+  preview_photos?: PreviewPhoto[]
 }
 
 export interface ITopicsResponseLinks {
@@ -116,4 +115,8 @@ export interface PreviewPhoto {
   updated_at: Date
   blur_hash: string | null
   urls: Urls
+}
+
+export enum Status {
+  Open = "open"
 }

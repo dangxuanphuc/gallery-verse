@@ -8,6 +8,7 @@ import type { ITopicsResponse } from '../types/TopicsResponse'
 interface ITopicsProps {
   items: ITopicsResponse[] | Tag[] | null
   wrapper: MutableRefObject<null>
+  asLink?: boolean
 }
 
 const Topics = ({ items: topics, wrapper }: ITopicsProps) => {

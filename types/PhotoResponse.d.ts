@@ -2,7 +2,7 @@ export interface IPhotoResponse {
   id: string
   created_at: Date
   updated_at: Date
-  promoted_at: Date
+  promoted_at: Date | null
   width: number
   height: number
   color: string
@@ -96,7 +96,7 @@ export interface ResultCoverPhoto {
   id: string
   created_at: Date
   updated_at: Date
-  promoted_at: Date | null
+  promoted_at: string
   width: number
   height: number
   color: string
@@ -234,7 +234,7 @@ export interface PurpleCoverPhoto {
   id: string
   created_at: Date
   updated_at: Date
-  promoted_at: Date
+  promoted_at: Date | null
   width: number
   height: number
   color: string
