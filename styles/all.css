@@ -31,7 +31,7 @@
     @apply rounded-xl w-full p-0 relative overflow-hidden before:(content pointer-events-none z-5 absolute inset-0 opacity-0 dark:opacity-10 bg-dark-900 transition-all duration-150);
 
     .image-link {
-      @apply rounded-xl  block overflow-hidden;
+      @apply rounded-xl block overflow-hidden cursor-pointer;
 
       figure {
         @apply rounded-lg flex relative overflow-hidden;
