@@ -139,7 +139,7 @@ const Home = ({ images, topics, imgOfTheDay }: HomeProps) => {
                 className="infinite-scroll"
                 endMessage={
                   <h1 className="end-msg">
-                    We don&quot;t have more images to show
+                    We don&rsquo;t have more images to show
                   </h1>
                 }
               >
