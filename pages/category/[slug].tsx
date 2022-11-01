@@ -118,6 +118,7 @@ const CategorySlug = ({ images, topics, currentTopic }: CategorySlugProps) => {
                   </h1>
                 }
               >
+                {/* @ts-ignore:next-line */}
                 <Masonry
                   disableImagesLoaded={false}
                   updateOnEachImageLoad={false}

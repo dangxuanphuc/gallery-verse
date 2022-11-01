@@ -143,6 +143,7 @@ const Home = ({ images, topics, imgOfTheDay }: HomeProps) => {
                   </h1>
                 }
               >
+                {/* @ts-ignore:next-line */}
                 <Masonry className={'masonry'}>
                   {images?.map((image) => (
                     <ImageCard key={image.id} data={image} />

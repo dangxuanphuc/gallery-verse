@@ -13,7 +13,7 @@ export interface Result {
   height: number
   color: string
   blur_hash: string
-  description: null | string
+  description: string | null
   alt_description: string
   urls: Urls
   links: ResultLinks
@@ -69,8 +69,8 @@ export interface CoverPhoto {
   height: number
   color: string
   blur_hash: string
-  description: null | string
-  alt_description: null | string
+  description: string | null
+  alt_description: string | null
   urls: Urls
   links: ResultLinks
   categories: any[]
@@ -87,6 +87,7 @@ export interface Urls {
   regular: string
   small: string
   thumb: string
+  small_s3: string
 }
 
 export interface User {
@@ -95,20 +96,20 @@ export interface User {
   username: string
   name: string
   first_name: string
-  last_name: null | string
-  twitter_username: null | string
-  portfolio_url: null | string
-  bio: null | string
-  location: null | string
+  last_name: string | null
+  twitter_username: string | null
+  portfolio_url: string | null
+  bio: string | null
+  location: string | null
   links: UserLinks
   profile_image: ProfileImage
-  instagram_username: null | string
+  instagram_username: string | null
   total_collections: number
   total_likes: number
   total_photos: number
   accepted_tos: boolean
   for_hire: boolean
-  social?: Social
+  social?: Social | null
 }
 
 export interface UserLinks {
@@ -128,9 +129,9 @@ export interface ProfileImage {
 }
 
 export interface Social {
-  instagram_username: null | string
-  portfolio_url: null | string
-  twitter_username: null | string
+  instagram_username: string | null
+  portfolio_url: string | null
+  twitter_username: string | null
   paypal_email: null
 }
 

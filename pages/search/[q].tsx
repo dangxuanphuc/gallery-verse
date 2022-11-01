@@ -46,6 +46,7 @@ const Search = ({
               </p>
             </div>
 
+            {/* @ts-ignore:next-line */}
             <Topics asLink items={topics} wrapper={categoriesWrapper} />
 
             <div className="infinite-scroll-wrapper">
@@ -73,6 +74,7 @@ const Search = ({
                   </h1>
                 }
               >
+                {/* @ts-ignore:next-line */}
                 <Masonry
                   disableImagesLoaded={false}
                   updateOnEachImageLoad={false}

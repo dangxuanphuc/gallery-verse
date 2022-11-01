@@ -33,7 +33,7 @@ const ImageDetail = ({
             <div className="image">
               <figure>
                 <BlurhashCanvas
-                  hash={currentImage.blur_hash}
+                  hash={currentImage.blur_hash || ''}
                   punch={1}
                   className="h-full w-full inset-0 absolute"
                   height={32}
@@ -150,6 +150,7 @@ const ImageDetail = ({
                   }
                   className="infinite-scroll"
                 >
+                  {/* @ts-ignore:next-line */}
                   <Masonry
                     disableImagesLoaded={false}
                     updateOnEachImageLoad={false}
