@@ -40,13 +40,13 @@ export interface User {
   location: string
   links: UserLinks
   profile_image: ProfileImage
-  instagram_username: string
+  instagram_username: string | null
   total_collections: number
   total_likes: number
   total_photos: number
   accepted_tos: boolean
   for_hire: boolean
-  social: Social
+  social?: Social | null
 }
 
 export interface UserLinks {
@@ -66,9 +66,9 @@ export interface ProfileImage {
 }
 
 export interface Social {
-  instagram_username: string
-  portfolio_url: string
-  twitter_user: string
+  instagram_username: string | null
+  portfolio_url: string | null
+  twitter_user: string | null
   paypal_email: string | null
 }
 
